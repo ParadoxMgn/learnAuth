@@ -253,57 +253,61 @@ class User {
     let checkMail = true;
     let checkPass = true;
 
-    if (popupEmail.value.trim() !== '') {
-      if ((!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(popupEmail.value.trim()))) {
-        check = false;
-        popupEmailErr.innerText = 'Введите корректный eMail';
-      }
-
-      userList.forEach(item => {
-        if (item.email !== this.email) {
-          if (item.email === popupEmail.value.trim()) {
-            check = false;
-            alert('Пользователь с таким eMail уже зарегистрирован!');
-          }
+    if (this.email === authEMail) {
+      if (popupEmail.value.trim() !== '') {
+        if ((!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(popupEmail.value.trim()))) {
+          check = false;
+          popupEmailErr.innerText = 'Введите корректный eMail';
         }
-      });
-    }
-
-    if (popupPassword.value !== '') {
-      if (popupPassword.value.length < 6) {
-        check = false;
-        popupPasswordErr.innerText = 'Пароль должен содержать не менее 6 символов!';
-      }
-    }
-
-    if (check) {
-      if (checkMail) {
-        if (popupEmail.value.trim() !== '') {
-          this.email = popupEmail.value;
-          authEMail = popupEmail.value;
-        }
-      }
-      if (checkPass) {
-        if (popupPassword.value.trim() !== '') {
-          if (popupPassword.value === popupPasswordCheck.value) {
-            this.password = popupPassword.value;
-          } else {
-            textErr.innerText = 'Пароли не совпадают';
-          }
-        }
-
-      }
-
-      if (popupEmail.value.trim() !== '' || popupPassword.value !== '') {
-        popup.style.zIndex = '1';
-        popup.style.visibility = 'hidden';
-        localStorage.setItem('users', JSON.stringify(userList));
-        localStorage.setItem('auth', JSON.stringify(authEMail));
-        tBody.innerHTML = '<tr><th>№ п/п</th><th>E-Mail</th><th class="td-btn"></th></tr>';
 
         userList.forEach(item => {
-          item.start();
+          if (item.email !== this.email) {
+            if (item.email === popupEmail.value.trim()) {
+              check = false;
+              alert('Пользователь с таким eMail уже зарегистрирован!');
+            }
+          }
         });
+      }
+
+      if (popupPassword.value !== '') {
+        if (popupPassword.value.length < 6) {
+          check = false;
+          popupPasswordErr.innerText = 'Пароль должен содержать не менее 6 символов!';
+        }
+      }
+
+      if (check) {
+        if (checkMail) {
+          if (popupEmail.value.trim() !== '') {
+            this.email = popupEmail.value;
+            authEMail = popupEmail.value;
+            alert('EMail успешно изменен!');
+          }
+        }
+        if (checkPass) {
+          if (popupPassword.value !== '') {
+            if (popupPassword.value === popupPasswordCheck.value) {
+              this.password = popupPassword.value;
+              alert('Пароль успешно изменен!');
+            } else {
+              textErr.innerText = 'Пароли не совпадают';
+            }
+          }
+
+        }
+
+        if (popupEmail.value.trim() !== '' || popupPassword.value !== '') {
+          popup.style.zIndex = '1';
+          popup.style.visibility = 'hidden';
+          localStorage.setItem('users', JSON.stringify(userList));
+          localStorage.setItem('auth', JSON.stringify(authEMail));
+          tBody.innerHTML = '<tr><th>№ п/п</th><th>E-Mail</th><th class="td-btn"></th></tr>';
+
+          userList.forEach(item => {
+            item.start();
+          });
+        }
       }
     }
   }
