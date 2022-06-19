@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="script/main.js" defer></script>
+  <title>Страница пользователя</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="container container-home">
+      <div class="block__page">
+        <div class="head">
+          <div class="head__content">
+            <p>Вы авторизованы!</p>
+            <p class="head__email">Ваш емайл: <span id="text-email">paradox456@mail.ru</span></p>
+            <p class="head__date">Дата регистрации: <span id="text-date">13.11.1991</span></p>
+          </div>
+          <div class="head__exit">
+            <button id="btn-exit" class="btn btn-exit">Выйти</button>
+          </div>
+        </div>
+        <div class="table-block">
+          <table class="table">
+            <tr>
+              <th>№ п/п</th>
+              <th>E-Mail</th>
+              <th class="td-btn"></th>
+            </tr>
+          </table>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="popup" class="popup">
+    <div class="popup__body" id="popup__body">
+      <div class="popup__content">
+        <a href="#" class="popup_close" id="popup_close">&#10006;</a>
+        <div class="popup__title">Редактирование данных</div>
+        <form action="" class="popup__form">
+          <input type="email" id="popup__email" class="popup__input input" placeholder="Введите новый email">
+          <span id="popup__email-err"></span>
+          <input type="password" id="popup__password" class="popup__input input" placeholder="Введите новый пароль">
+          <span id="popup__password-err"></span>
+          <input type="password" id="popup__password-check" class="popup__input input" placeholder="Повторите пароль">
+          <span id="text-err"></span>
+          <button id="popup__btn-save" class="popup__btn btn">Сохранить</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
