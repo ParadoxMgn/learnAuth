@@ -282,14 +282,14 @@ class User {
           if (popupEmail.value.trim() !== '') {
             this.email = popupEmail.value;
             authEMail = popupEmail.value;
-            alert('EMail успешно изменен!');
+            checkMail = false;
           }
         }
         if (checkPass) {
           if (popupPassword.value !== '') {
             if (popupPassword.value === popupPasswordCheck.value) {
               this.password = popupPassword.value;
-              alert('Пароль успешно изменен!');
+              checkPass = false;
             } else {
               textErr.innerText = 'Пароли не совпадают';
             }
@@ -307,6 +307,12 @@ class User {
           userList.forEach(item => {
             item.start();
           });
+        }
+        if (!checkMail) {
+          alert('EMail успешно изменен!');
+        }
+        if (!checkPass) {
+          alert('Пароль успешно изменен!');
         }
       }
     }
