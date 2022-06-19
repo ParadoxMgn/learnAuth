@@ -1,7 +1,9 @@
 'use strict';
 
-const index = 'file:///C:/Users/%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9/Desktop/learnAuth/index.html';
-const home = 'file:///C:/Users/%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9/Desktop/learnAuth/home.html';
+const indexPath = window.location.href.slice(0, window.location.href.lastIndexOf('/'));
+
+const index = indexPath + '/index.html';
+const home = indexPath + '/home.html';
 
 const userList = [];
 const localUserList = JSON.parse(localStorage.getItem('users')) || [];
@@ -196,8 +198,6 @@ class User {
   openChange(e) {
     e.preventDefault();
 
-    console.log(popupEmail.value);
-
     popupEmail.value = '';
     popupPassword.value = '';
     popupPasswordCheck.value = '';
@@ -321,7 +321,6 @@ if (window.location.href === home) {
     tBody.innerHTML = '<tr><th>№ п/п</th><th>E-Mail</th><th class="td-btn"></th></tr>';
     userList.forEach(item => {
       item.start();
-      console.log(item);
     });
 
     btnExit.addEventListener('click', exit);
@@ -358,6 +357,3 @@ if (window.location.href === index) {
     });
   });
 }
-
-
-
