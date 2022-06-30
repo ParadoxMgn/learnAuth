@@ -3,19 +3,19 @@ const redirect = () => {
   const index = indexPath + '/index.html';
   const home = indexPath + '/home.html';
 
-  let authEMail = JSON.parse(localStorage.getItem('auth')) || '';
+  let authEMail = JSON.parse(localStorage.getItem('auth')) || [];
 
   const containerIndex = document.querySelector('.container-index');
   const containerHome = document.querySelector('.container-home');
 
   if (containerIndex) {
-    if (authEMail !== '') {
+    if (authEMail.length > 0) {
       window.location.replace(home);
     }
   }
 
   if (containerHome) {
-    if (authEMail === '') {
+    if (authEMail.length === 0) {
       window.location.replace(index);
     }
   }

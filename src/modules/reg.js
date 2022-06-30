@@ -49,7 +49,7 @@ const reg = (User) => {
       const dateReg = `${date.toLocaleDateString('ru')} в ${date.toLocaleTimeString('ru')}`;
       const index = userList.length;
 
-      userList.push(new User(index, email.value, password.value, dateReg));
+      userList.push(new User(index, email.value, password.value, dateReg, 'user'));
 
       email.value = '';
       password.value = '';

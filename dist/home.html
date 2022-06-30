@@ -42,13 +42,17 @@
       <div class="popup__content">
         <a href="#" class="popup_close" id="popup_close">&#10006;</a>
         <div class="popup__title">Редактирование данных</div>
-        <form action="" class="popup__form">
+        <form action="#" class="popup__form">
           <input type="email" id="popup__email" class="popup__input input" placeholder="Введите новый email">
           <span id="popup__email-err"></span>
           <input type="password" id="popup__password" class="popup__input input" placeholder="Введите новый пароль">
           <span id="popup__password-err"></span>
           <input type="password" id="popup__password-check" class="popup__input input" placeholder="Повторите пароль">
           <span id="text-err"></span>
+          <select name="select" id="perm" class="perm">
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
           <button id="popup__btn-save" class="popup__btn btn">Сохранить</button>
         </form>
       </div>

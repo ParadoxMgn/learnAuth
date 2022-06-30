@@ -54,7 +54,8 @@ a:active {
   align-items: center;
 }
 
-.input {
+.input,
+.perm {
   border: none;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -181,7 +182,8 @@ a:active {
   flex-direction: column;
 }
 
-.popup__input {
+.popup__input,
+.perm {
   background: rgba(0, 0, 0, 0.03);
 }
 
@@ -199,4 +201,8 @@ a:active {
   display: inline-block;
   padding-bottom: 10px;
   color: red;
+}
+
+.perm {
+  display: none;
 }

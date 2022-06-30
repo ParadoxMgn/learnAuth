@@ -4,7 +4,7 @@ const localUser = User => {
 
   if (localUserList.length > 0) {
     localUserList.forEach((item, index) => {
-      userList.push(new User(index, item.email, item.password, item.dateReg, item.auth));
+      userList.push(new User(index, item.email, item.password, item.dateReg, item.permissions, item.auth));
     });
     localStorage.setItem('users', JSON.stringify(userList));
   }

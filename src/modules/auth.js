@@ -4,6 +4,7 @@ import users from './users';
 const auth = () => {
   const indexPath = window.location.href.slice(0, window.location.href.lastIndexOf('/'));
   const home = indexPath + '/home.html';
+  const authEMail = JSON.parse(localStorage.getItem('auth')) || [];
 
   const btnAuth = document.getElementById('btn-auth');
   const email = document.getElementById('email');
@@ -40,7 +41,9 @@ const auth = () => {
             check = false;
             if (item.password === password.value) {
               item.auth = '1';
-              localStorage.setItem('auth', JSON.stringify(item.email));
+              authEMail.push(item.email);
+              authEMail.push(item.permissions);
+              localStorage.setItem('auth', JSON.stringify(authEMail));
               localStorage.setItem('users', JSON.stringify(userList));
 
               window.location.href = home;

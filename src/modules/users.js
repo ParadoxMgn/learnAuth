@@ -1,6 +1,6 @@
 const users = () => {
   const localUserList = JSON.parse(localStorage.getItem('users')) || [];
-  let authEMail = JSON.parse(localStorage.getItem('auth')) || '';
+  let authEMail = JSON.parse(localStorage.getItem('auth')) || [];
 
   const textEmail = document.getElementById('text-email');
   const textDate = document.getElementById('text-date');
@@ -15,22 +15,33 @@ const users = () => {
   const popupEmailErr = document.getElementById('popup__email-err');
   const popupPasswordErr = document.getElementById('popup__password-err');
   const textErr = document.getElementById('text-err');
+  const perm = document.querySelector('.perm');
+  let indexChange;
+  let checkPerm;
 
   class User {
-    constructor(index, email, password, dateReg, auth = '') {
+    constructor(index, email, password, dateReg, permissions = 'user', auth = '') {
       this.index = index;
       this.email = email;
       this.password = password;
       this.dateReg = dateReg;
+      this.permissions = permissions;
       this.auth = auth;
     }
     start() {
       this.show();
 
       if (this.auth) {
-        tBody.querySelector('#btn-cahge').addEventListener('click', this.openChange.bind(this));
-        popupClose.addEventListener('click', this.closeChange.bind(this));
+        tBody.addEventListener('click', e => {
+          if (e.target.matches('.btn')) {
+            indexChange = +e.target.id;
+
+            this.openChange(e);
+          }
+        });
+
         popupBtnSave.addEventListener('click', this.change.bind(this));
+        popupClose.addEventListener('click', this.closeChange.bind(this));
         popupPasswordCheck.addEventListener('input', this.checkPass.bind(this));
         popupPassword.addEventListener('input', this.checkPass.bind(this));
       }
@@ -40,11 +51,13 @@ const users = () => {
         textEmail.innerText = this.email;
         textDate.innerText = this.dateReg;
       }
+
       tBody.insertAdjacentHTML('beforeend', `<tr>
-      <td>${this.index + 1}</td>
-      <td>${this.email}</td>
-      <td>${this.auth ? `<button class="btn" id="btn-cahge">Редактировать данные</button>` : ''}</td>
-      </tr>`);
+        <td>${this.index + 1}</td>
+        <td class="e${this.index}">${this.email}</td>
+        <td>${authEMail[1] === 'admin' ? `<button class="btn" id="${this.index}">Редактировать данные</button>` :
+          this.auth ? `<button class="btn" id="${this.index}">Редактировать данные</button>` : ''}</td>
+        </tr>`);
     }
     openChange(e) {
       e.preventDefault();
@@ -70,10 +83,17 @@ const users = () => {
       popupEmailErr.innerText = '';
       popupPasswordErr.innerText = '';
       textErr.innerText = '';
+      perm.value = localUserList[`${e.target.id}`].permissions;
+      perm.style.display = 'none';
+      if (authEMail[1] === 'admin') {
+        if (localUserList[`${e.target.id}`].email !== authEMail[0]) {
+          perm.style.display = 'inline-block';
+        }
+      }
       popup.style.zIndex = '3';
       popup.style.visibility = 'visible';
 
-      this.animPopup(0);
+      this.animPopup();
     }
     closeChange(e) {
       e.preventDefault();
@@ -96,6 +116,7 @@ const users = () => {
     }
     change(e) {
       e.preventDefault();
+
       let check = true;
       let checkMail = true;
       let checkPass = true;
@@ -107,7 +128,7 @@ const users = () => {
         }
 
         localUserList.forEach(item => {
-          if (item.email !== authEMail) {
+          if (item.index !== indexChange) {
             if (item.email === popupEmail.value.trim()) {
               check = false;
               alert('Пользователь с таким eMail уже зарегистрирован!');
@@ -127,11 +148,14 @@ const users = () => {
         if (checkMail) {
           if (popupEmail.value.trim() !== '') {
             localUserList.forEach(item => {
-              if (item.email === authEMail) {
+              if (item.index === indexChange) {
                 item.email = popupEmail.value;
+
+                if (item.auth) {
+                  authEMail[0] = popupEmail.value;
+                }
               }
             });
-            authEMail = popupEmail.value;
             checkMail = false;
           }
         }
@@ -139,7 +163,7 @@ const users = () => {
           if (popupPassword.value !== '') {
             if (popupPassword.value === popupPasswordCheck.value) {
               localUserList.forEach(item => {
-                if (item.email === authEMail) {
+                if (item.index === indexChange) {
                   item.password = popupPassword.value;
                 }
               });
@@ -148,10 +172,21 @@ const users = () => {
               textErr.innerText = 'Пароли не совпадают';
             }
           }
-
         }
 
-        if (popupEmail.value.trim() !== '' || popupPassword.value !== '') {
+        localUserList.forEach(item => {
+          if (item.index === indexChange) {
+            checkPerm = item.permissions;
+            if (perm.value !== item.permissions) {
+
+              item.permissions = perm.value;
+              alert('Права успешно изменены!');
+            }
+          }
+        });
+
+
+        if (popupEmail.value.trim() !== '' || popupPassword.value !== '' || perm.value !== checkPerm) {
           popup.style.zIndex = '1';
           popup.style.visibility = 'hidden';
           localStorage.setItem('users', JSON.stringify(localUserList));
@@ -159,16 +194,8 @@ const users = () => {
         }
         if (!checkMail) {
           alert('EMail успешно изменен!');
-          textEmail.innerText = authEMail;
-          tBody.innerHTML = '<tr><th>№ п/п</th><th>E-Mail</th><th class="td-btn">Редактирование</th></tr>';
-          localUserList.forEach(item => {
-            tBody.insertAdjacentHTML('beforeend', `<tr>
-            <td>${item.index + 1}</td>
-            <td>${item.email}</td>
-            <td>${item.auth ? `<button class="btn" id="btn-cahge">Редактировать данные</button>` : ''}</td>
-            </tr>`);
-          });
-          tBody.querySelector('#btn-cahge').addEventListener('click', this.openChange.bind(this));
+          textEmail.innerText = authEMail[0];
+          document.querySelector(`.e${indexChange}`).innerText = localUserList[indexChange].email;
         }
         if (!checkPass) {
           alert('Пароль успешно изменен!');
